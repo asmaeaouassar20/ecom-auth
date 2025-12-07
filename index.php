@@ -1,3 +1,34 @@
+<?php
+    session_start();  // ctive la session pour pouvoir lire les messages stockés avant (ex : erreurs).
+
+    $errors = [ // tableau pour récupérer les erreurs stockées dans la session.
+        'login' => $_SESSION['login_error'] ?? '',
+        'register' => $_SESSION['resgister_error'] ?? ''
+    ];
+
+
+    /**
+     * → Choisit quel formulaire afficher par défaut :
+     *   Si une erreur existe pour l’inscription, on montre le formulaire “register”.
+     *   Sinon, on affiche “login”.
+     */
+    $activeForm = $_SESSION['register_error'] ?? 'login';
+
+    session_unset(); // → Vide toutes les variables de la session (efface les messages après les avoir affichés).
+                    // C’est pour éviter que les erreurs se réaffichent à chaque rechargement.
+
+
+    function showError($error){
+        return !empty($error) ? "<p class='error-messsage'>$error</p>" : '';
+    }
+
+    function isActiveForm($formName, $activeForm){
+        return $formName===$activeForm ? 'active' : '';
+    }
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,9 +40,10 @@
 <body>
 
     <div class="container">
-        <div class="form-box active" id="login-form">
+        <div class="form-box <?= isActiveForm('login',$activeForm) ?>" id="login-form">
             <form action="login_register.php" method="post">
                 <h2>Login</h2>
+                <?= showError($errors['login']); ?>
                 <input type="email" name="email" placeholder="Email" required>
                 <input type="password" name="password" placeholder="Password" required>
                 <button type="submit" name="login">Login</button>
@@ -20,9 +52,10 @@
         </div>
 
 
-        <div class="form-box" id="register-form">
+        <div class="form-box <?= isActiveForm('register', $activeForm); ?> " id="register-form">
             <form action="login_register.php" method="post">
                 <h2>Register</h2>
+                <?= showError($errors['register']); ?>
                 <input type="text" name="name" placeholder="Name" required>
                 <input type="email" name="email" placeholder="Email" required>
                 <input type="password" name="password" placeholder="Password" required>
