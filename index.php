@@ -3,7 +3,7 @@
 
     $errors = [ // tableau pour récupérer les erreurs stockées dans la session.
         'login' => $_SESSION['login_error'] ?? '',
-        'register' => $_SESSION['resgister_error'] ?? ''
+        'register' => $_SESSION['register_error'] ?? ''
     ];
 
 
@@ -12,7 +12,7 @@
      *   Si une erreur existe pour l’inscription, on montre le formulaire “register”.
      *   Sinon, on affiche “login”.
      */
-    $activeForm = $_SESSION['register_error'] ?? 'login';
+    $activeForm = $_SESSION['active_form'] ?? 'login';
 
     session_unset(); // → Vide toutes les variables de la session (efface les messages après les avoir affichés).
                     // C’est pour éviter que les erreurs se réaffichent à chaque rechargement.

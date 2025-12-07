@@ -4,7 +4,7 @@ require_once 'config.php';  // Importe un fichier une seule fois (souvent la con
 
 if(isset($_POST['register'])){  // Vérifie si une variable existe et n’est pas null (ex : si un bouton a été cliqué).
     $name = $_POST['name'];
-    $email = $POST['email'];
+    $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);  // PASSWORD_DEFAULT
                                                                             // → Utilise l’algorithme de hachage recommandé par PHP pour sécuriser les mots de passe.
     $role = $_POST['role'];
@@ -18,7 +18,7 @@ if(isset($_POST['register'])){  // Vérifie si une variable existe et n’est pa
         $conn->query("INSERT INTO users (name,email,password,role) VALUES ('$name','$email','$password','$role')");
     }
 
-    header("Location : index.php");     // Redirige l’utilisateur vers une autre page (ici : index.php).
+    header("Location: index.php");     // Redirige l’utilisateur vers une autre page (ici : index.php).
     exit();  // Arrête immédiatement l’exécution du script (important après une redirection).
 }
 
